@@ -41,9 +41,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
    <property name="generated-sources-src" value="src/main/generated-sources" />
    <property name="test-tmp" value="test.tmp" />
    <property name="target-folder" value="target" />
-   <property name="javacc-versionnedjarname" value="javacc-${version.major}.${version.minor}.${version.patch}.jar" />
-   <property name="javacc-jarname" value="javacc.jar" />
-   <property name="javacc-versionnedjar" value="${target-folder}/${javacc-versionnedjarname}" />
+   <property name="javacc-jarname" value="javacc-${version.major}.${version.minor}.${version.patch}.jar" />
    <property name="javacc-jar" value="${target-folder}/${javacc-jarname}" />
    <property name="bootstrap-jar" value="bootstrap/javacc.jar" />
    <property name="jjtree-bootstrap-class" value="org.javacc.jjtree.Main" />
@@ -141,7 +139,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
   <target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
     <mkdir dir="${target-folder}" />
     <jar jarfile="${javacc-jar}" basedir="classes" compress="true" />
-    <jar jarfile="${javacc-versionnedjar}" basedir="classes" compress="true" />
   </target>
 
   <target name="jar-check">
@@ -152,15 +149,15 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <target name="binary-distribution" depends="clean,jar, javadoc">
     <property name="install-name" value="${target-folder}/javacc-${version}" />
-   
+     
      <delete file="${install-name}-distribution.tar.gz" />
      <tar destfile="${install-name}-distribution.tar.gz" compression="gzip">
         <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
         <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
         <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}" filemode="444" file="LICENSE" />
         <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/${target-folder}" filemode="444" file="${javacc-jar}" />
-   </tar>
-      
+     </tar>
+        
      <delete file="${install-name}-distribution.zip" />
      <zip destfile="${install-name}-distribution.zip">
 
@@ -168,21 +165,21 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <zipfileset prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
         <zipfileset prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
         <zipfileset prefix="javacc-${version}" filemode="444" file="LICENSE" />
-   </zip>
-   
+     </zip>
+     
      <!-- <antcall target="clean"/> -->
 
-   <delete dir="." includes="**/*.class" />
+     <delete dir="." includes="**/*.class" />
      <delete file="${install-name}-sources.tar.gz" />
 
      <tar destfile="${install-name}-sources.tar.gz" compression="gzip">
         <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}" filemode="444" file="./**" excludes="deployment_pom/**, target/**, temp/**, .svn,CVS,**/*.zip,**/*.tar.gz" />
-   </tar>
+     </tar>
 
      <delete file="${install-name}-sources.jar" />
      <zip destfile="${install-name}-sources.jar">
         <zipfileset prefix="javacc-${version}" filemode="444" file="./**" excludes=".svn,CVS,**/*.zip,**/*.tar.gz, deployment_pom/**, target/**, dist/**, temp/**" />
-   </zip>
+     </zip>
 
 
   </target>
@@ -278,7 +275,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <echo />
     
-  	<!--
     <copy todir="${test-tmp}/GUIParsing/TokenMgrVersion">
       <fileset dir="examples/GUIParsing/TokenMgrVersion">
         <include name="*.java" />
@@ -292,8 +288,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="${test-tmp}/GUIParsing/TokenMgrVersion" />
 
     <echo />
-    -->
-  	
+    
     <copy todir="${test-tmp}/Interpreter">
       <fileset dir="examples/Interpreter">
         <include name="*.java" />
@@ -371,18 +366,18 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <echo />
     
     <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg1 examples/JJTreeExamples/java/eg1.jjt" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
     </java>
 
     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg1 ${test-tmp}/java/JJTreeExamples.eg1/eg1.jj" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg1 ${test-tmp}/JJTreeExamples.eg1/eg1.jj" />
     </java>
 
-    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg1" />
+    <javac srcdir="${test-tmp}/JJTreeExamples.eg1" />
     
     <java failonerror="true" fork="true" 
           classname="Eg1" 
-          classpath="${test-tmp}/java/JJTreeExamples.eg1/"
+          classpath="${test-tmp}/JJTreeExamples.eg1/"
           inputstring="(a + b) * (c + 1);"
           outputproperty="jjtree.eg1.out"
     >
@@ -398,8 +393,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <echo />
     
-    <copy todir="${test-tmp}/java/JJTreeExamples.eg2">
-      <fileset dir="examples/JJTreeExamples/java">
+    <copy todir="${test-tmp}/JJTreeExamples.eg2">
+      <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
         <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
@@ -407,18 +402,18 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </copy>
 
     <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg2 examples/JJTreeExamples/java/eg2.jjt" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg2 examples/JJTreeExamples/eg2.jjt" />
     </java>
 
     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg2 ${test-tmp}/java/JJTreeExamples.eg2/eg2.jj" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg2 ${test-tmp}/JJTreeExamples.eg2/eg2.jj" />
     </java>
 
-    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg2" />
+    <javac srcdir="${test-tmp}/JJTreeExamples.eg2" />
     
     <java failonerror="true" fork="true" 
           classname="Eg2" 
-          classpath="${test-tmp}/java/JJTreeExamples.eg2/"
+          classpath="${test-tmp}/JJTreeExamples.eg2/"
           inputstring="(a + b) * (c + 1);"
           outputproperty="jjtree.eg2.out" >
     </java>
@@ -432,8 +427,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </fail>
     <echo />
 
-    <copy todir="${test-tmp}/java/JJTreeExamples.eg3">
-      <fileset dir="examples/JJTreeExamples/java">
+    <copy todir="${test-tmp}/JJTreeExamples.eg3">
+      <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
         <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
@@ -441,18 +436,18 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </copy>
 
     <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg3 examples/JJTreeExamples/java/eg3.jjt" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg3 examples/JJTreeExamples/eg3.jjt" />
     </java>
 
     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg3 ${test-tmp}/java/JJTreeExamples.eg3/eg3.jj" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg3 ${test-tmp}/JJTreeExamples.eg3/eg3.jj" />
     </java>
     
-    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg3" />
+    <javac srcdir="${test-tmp}/JJTreeExamples.eg3" />
 
     <java failonerror="true" fork="true" 
           classname="Eg3" 
-          classpath="${test-tmp}/java/JJTreeExamples.eg3/"
+          classpath="${test-tmp}/JJTreeExamples.eg3/"
           inputstring="(a + b) * (c + 1);"
           outputproperty="jjtree.eg3.out" >
     </java>
@@ -467,25 +462,25 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <echo />
 
-    <copy todir="${test-tmp}/java/JJTreeExamples.eg4">
-      <fileset dir="examples/JJTreeExamples/java">
+    <copy todir="${test-tmp}/JJTreeExamples.eg4">
+      <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
       </fileset>
     </copy>
 
     <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg4 examples/JJTreeExamples/java/eg4.jjt" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg4 examples/JJTreeExamples/eg4.jjt" />
     </java>
     
     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
-      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg4 ${test-tmp}/java/JJTreeExamples.eg4/eg4.jj" />
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JJTreeExamples.eg4 ${test-tmp}/JJTreeExamples.eg4/eg4.jj" />
     </java>
 
-    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg4" debug="true" />
+    <javac srcdir="${test-tmp}/JJTreeExamples.eg4" debug="true" />
 
     <java failonerror="true" fork="true" 
           classname="Eg4" 
-          classpath="${test-tmp}/java/JJTreeExamples.eg4/"
+          classpath="${test-tmp}/JJTreeExamples.eg4/"
           inputstring="(a + b) * (c + 1);"
           outputproperty="jjtree.eg4.out" >
     </java>

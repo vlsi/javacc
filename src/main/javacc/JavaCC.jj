@@ -109,13 +109,6 @@ public class JavaCCParser extends JavaCCParserInternals {
     return true;
   }
 
-  private boolean isAllowed(Token t)  {
-    if (isJavaLanguage && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
-       return false;
-    else
-       return true;
-  }    
-
    /**
     * Class to hold modifiers.
     */
@@ -411,14 +404,6 @@ TOKEN :
 | < WHILE: "while" >
 }
 
-/* C++ RESERVED WORDS AND LITERALS */
-
-TOKEN :
-{
-  < TEMPLATE: "template" >
-| < TYPENAME: "typename" >
-}
-
 /* JAVA LITERALS */
 
 TOKEN :
@@ -509,7 +494,6 @@ TOKEN :
 | < TILDE: "~" >
 | < HOOK: "?" >
 | < COLON: ":" >
-| < DOUBLECOLON: "::" >
 | < EQ: "==" >
 | < LE: "<=" >
 | < GE: ">=" >
@@ -1925,35 +1909,20 @@ void ReferenceType():
 {
    PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
   |
-   ( [ Template() ] ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
-}
-
-void Template():
-{}
-{	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
-}
-
-void TemplateBase():
-{}
-{	TemplatePack() ["..."] <IDENTIFIER> 
-}
-
-void TemplatePack():
-{}
-{	( "class" | "typename" )
+   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
 }
 
 void ClassOrInterfaceType():
 {}
 {
   <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ]
-  ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
+  ( LOOKAHEAD(2) "." <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
 void TypeArguments():
 {}
 {
-   "<" TypeArgument() ( "," TypeArgument() [ "..." ] )* ">"
+   "<" TypeArgument() ( "," TypeArgument() )* ">"
 }
 
 void TypeArgument():
@@ -2002,22 +1971,17 @@ void ResultType(List tokens) :
 	}
 {
 (
-  "void" [ "*" ]
+  "void"
 |
-  [ "const" ] Type() [ "*" | "&" ]
+  Type()
 )
 	{
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    String i = t.image;
-	    if (isAllowed(t))  {
-	       tokens.add(t);
-	       if (t == last) break;
-	       t = t.next;
-	    } else {
-           throw new ParseException(t.image + " is invalid in this context");
-	    } 
+	    tokens.add(t);
+	    if (t == last) break;
+	    t = t.next;
 	  }
 	}
 }
