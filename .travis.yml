@@ -9,4 +9,8 @@ matrix:
         - mvn test -B -Dgpg.skip=true
     - name: Gradle
       script:
+        - git config --list
+        - cat -e mvn.bat
+        - cat -e make_bundle.cmd
+        - cat -e scripts/javacc.bat
         - ./gradlew --no-daemon build javadoc
