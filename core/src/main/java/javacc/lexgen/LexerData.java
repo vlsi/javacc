@@ -83,7 +83,7 @@ public class LexerData {
     public LexicalState getLexicalState(String name) {
         for (LexicalState state : lexicalStates) {
             if (state.getName().equals(name)) {
-                return state; 
+                return state;
             }
         }
         return null;
@@ -344,7 +344,7 @@ public class LexerData {
             }
         }
     }
-    
+
     static public void checkUnmatchability(RegexpChoice choice) {
         for (RegularExpression curRE : choice.getChoices()) {
             if (!(curRE).isPrivate()

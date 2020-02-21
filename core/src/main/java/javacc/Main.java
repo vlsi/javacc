@@ -36,12 +36,12 @@ import javacc.parser.ParseException;
  * Entry point.
  */
 public final class Main {
-    
+
     public static final String PROG_NAME = "JavaCC 21 Parser Generator";
     public static final String VERSION = "20.02.21";
     public static final String URL = "Go to https://javacc.com for more information.";
-  
-    
+
+
     private Main() {
     }
 
@@ -130,7 +130,7 @@ public final class Main {
             JavaCCUtils.bannerLine();
             usage();
             return 1;
-        } 
+        }
         JavaCCOptions options = new JavaCCOptions(args);
         boolean quiet = options.getQuiet();
         if (!quiet) {

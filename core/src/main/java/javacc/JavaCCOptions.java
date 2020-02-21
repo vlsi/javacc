@@ -70,7 +70,7 @@ public class JavaCCOptions {
      * values, and the option types can be determined from these values too.
      */
     private Map<String, Object> optionValues = new HashMap<String, Object>();
-    
+
     private Map<String, String> aliases = new HashMap<String, String>();
 
     /**
@@ -184,7 +184,7 @@ public class JavaCCOptions {
         aliases.put("NODE_CLASS", "BASE_NODE_CLASS");
         aliases.put("q",  "QUIET");
     }
-    
+
     public void setOption(String name, Object value) {
         if (aliases.containsKey(name)) {
             name = aliases.get(name);
@@ -231,7 +231,7 @@ public class JavaCCOptions {
 
 
         String s = name.toUpperCase();
-        
+
         if (inInclude) {
         	if (s.equals("DEFAULT_LEXICAL_STATE")) {
         		grammar.setDefaultLexicalState((String) value);
@@ -341,7 +341,7 @@ public class JavaCCOptions {
         } else {
             s = arg;
         }
-        
+
         if (s.equalsIgnoreCase("quiet")||s.equalsIgnoreCase("Q")) {
         	this.setOption("QUIET", true);
         	return;
@@ -420,7 +420,7 @@ public class JavaCCOptions {
         }
 
         Val = upgradeValue(name, Val);
- 
+
         setOption(name, Val);
         cmdLineSetting.add(name);
     }
@@ -570,7 +570,7 @@ public class JavaCCOptions {
 
     /**
      * Find the sanity check value. Currently, this ALWAYS returns true
-     * and will likely just be phased out. Why on earth would anybody 
+     * and will likely just be phased out. Why on earth would anybody
      * turn off the sanity checking?
      *
      * @return The requested sanity check value.
@@ -613,7 +613,7 @@ public class JavaCCOptions {
     public String getOutputDirectory() {
         return stringValue("OUTPUT_DIRECTORY");
     }
-    
+
     public boolean getQuiet() {
     	return booleanValue("QUIET");
     }

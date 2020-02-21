@@ -56,7 +56,7 @@ public class ParserData {
     private Grammar grammar;
     private int gensymindex = 0;
     private boolean lookaheadNeeded;
-    
+
     private List<int[]> tokenMasks = new ArrayList<int[]>();
     private List<BitSet> tokenMasks2 = new ArrayList<BitSet>();
 
@@ -88,27 +88,27 @@ public class ParserData {
     public String getOutput() {
         return outputBuffer.toString();
     }
-    
+
     public List<Lookahead> getPhase2Lookaheads() {
         return phase2list;
     }
-    
+
     public Map<Expansion, Integer> getPhase3Table() {
         return phase3table;
     }
-    
+
     public int getPhase3ExpansionCount(Expansion exp) {
         return phase3table.get(exp);
     }
-    
+
     public List<int[]> getTokenMaskValues() {
         return tokenMasks;
     }
-    
+
     public boolean isLookaheadNeeded() {
         return lookaheadNeeded;
     }
-    
+
     public void start() throws MetaParseException {
         if (grammar.getErrorCount() != 0)
             throw new MetaParseException();
@@ -133,7 +133,7 @@ public class ParserData {
             }
         }
     }
-    
+
     private void visitChoice(ExpansionChoice choice) {
         List<Lookahead> lookaheads = new ArrayList<Lookahead>();
         ExpansionSequence nestedSeq;
@@ -175,7 +175,7 @@ public class ParserData {
             else if (lookahead.getAmount() == 1 && lookahead.getSemanticLookahead() == null
                     && !Semanticizer.emptyExpansionExists(lookahead.getNestedExpansion())
                     && !Semanticizer.javaCodeCheck(lookahead.getNestedExpansion())) {
-                
+
                 if (!inPhase1) {
                     for (int i = 0; i < grammar.getLexerData().getTokenCount(); i++) {
                         casedValues[i] = false;
@@ -203,14 +203,14 @@ public class ParserData {
                     tokenMasks2.add(tokenMask2);
                 }
                 inPhase1 = false;
-            } 
+            }
         }
         if (inPhase1) {
             tokenMasks.add(tokenMask);
             tokenMasks2.add(tokenMask2);
         }
     }
-    
+
     private void visitLookahead(Lookahead lookahead) {
         int tokenCount = grammar.getLexerData().getTokenCount();
         int tokenMaskSize = (tokenCount - 1) / 32 + 1;
@@ -225,7 +225,7 @@ public class ParserData {
 
         else if (lookahead.getAmount() == 1 && lookahead.getSemanticLookahead() == null
                 && !Semanticizer.emptyExpansionExists(lookahead.getNestedExpansion())
-                && !Semanticizer.javaCodeCheck(lookahead.getNestedExpansion())) 
+                && !Semanticizer.javaCodeCheck(lookahead.getNestedExpansion()))
         {
             tokenMask = new int[tokenMaskSize];
             boolean[] firstSet = lookahead.getFirstSet();
@@ -354,7 +354,7 @@ public class ParserData {
                 if (cnt <= 0)
                     break;
             }
-        }  
+        }
         else if (e instanceof TryBlock) {
             setupPhase3Builds(e.getNestedExpansion(), amt);
         } else if (e instanceof OneOrMore) {

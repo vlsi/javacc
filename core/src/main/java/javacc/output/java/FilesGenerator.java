@@ -74,12 +74,12 @@ public class FilesGenerator {
 
     public FilesGenerator(Grammar grammar, List<Node> codeInjections) {
         this.grammar = grammar;
-        this.codeInjector = new CodeInjector(grammar.getParserClassName(), 
+        this.codeInjector = new CodeInjector(grammar.getParserClassName(),
                                              grammar.getLexerClassName(),
-                                             grammar.getConstantsClassName(), 
+                                             grammar.getConstantsClassName(),
                                              grammar.getBaseNodeClassName(),
-                                             grammar.getParserPackage(), 
-                                             grammar.getNodePackage(), 
+                                             grammar.getParserPackage(),
+                                             grammar.getNodePackage(),
                                              codeInjections);
     }
 
@@ -103,7 +103,7 @@ public class FilesGenerator {
             generateTreeBuildingFiles();
         }
     }
-    
+
     public void generate(File outputFile) throws IOException, TemplateException  {
         this.currentFilename = outputFile.getName();
         String templateName = currentFilename + ".ftl";
@@ -166,13 +166,13 @@ public class FilesGenerator {
             FileWriter outfile = new FileWriter(outputFile);
             try {
                 outfile.write(code);
-            } 
+            }
             finally {
                 outfile.close();
             }
         }
     }
-    
+
     void outputJavaFile(String code, File outputFile) throws IOException, TemplateException {
         File dir = outputFile.getParentFile();
         if (!dir.exists()) {
@@ -200,7 +200,7 @@ public class FilesGenerator {
             out.close();
         }
     }
-    
+
     void generateCharStream() throws IOException, TemplateException {
         String filename = "CharStream.java";
         if (!grammar.getOptions().getUserCharStream() && !grammar.getOptions().getUserDefinedLexer()) {
@@ -215,7 +215,7 @@ public class FilesGenerator {
             generate(outputFile);
         }
     }
-    
+
     void generateConstantsFile() throws IOException, TemplateException {
         String filename = grammar.getConstantsClassName() + ".java";
         File outputFile = new File(grammar.getParserOutputDirectory(), filename);
@@ -251,7 +251,7 @@ public class FilesGenerator {
         File outputFile = new File(grammar.getParserOutputDirectory(), filename);
         generate(outputFile);
     }
-    
+
     void generateParser() throws MetaParseException, IOException, TemplateException {
         if (!grammar.getOptions().getBuildParser()) return;
         grammar.buildParserInfo();
@@ -259,27 +259,27 @@ public class FilesGenerator {
         File outputFile = new File(grammar.getParserOutputDirectory(), filename);
         generate(outputFile);
     }
-    
+
     void generateDoc() throws IOException, TemplateException {
         String filename = grammar.getParserClassName() + ".html";
         File outputFile = new File(grammar.getParserOutputDirectory(), filename);
         generate(outputFile);
     }
-    
+
     void generateNodeFile() throws IOException, TemplateException {
         File outputFile = new File(grammar.getParserOutputDirectory(), "Node.java");
         if (regenerate(outputFile)) {
             generate(outputFile);
         }
     }
-    
+
     void generateUtilsFile() throws IOException, TemplateException {
         File outputFile = new File(grammar.getParserOutputDirectory(), "Nodes.java");
         if (regenerate(outputFile)) {
             generate(outputFile);
         }
     }
-    
+
     boolean regenerate(File file) throws IOException {
         if (!file.exists()) {
         	return true;
@@ -287,8 +287,8 @@ public class FilesGenerator {
         	String ourName = file.getName();
         	String canonicalName = file.getCanonicalFile().getName();
         	if (canonicalName.equalsIgnoreCase(ourName) && !canonicalName.equals(ourName)) {
-        		String msg = "You cannot have two files that differ only in case, as in " 
-        	                          + ourName + " and "+ canonicalName 
+        		String msg = "You cannot have two files that differ only in case, as in "
+        	                          + ourName + " and "+ canonicalName
         	                          + "\nThis does work on a case-sensitive file system but fails on a case-insensitive one (i.e. Mac/Windows)"
         	                          + " \nYou will need to rename something in your grammar!";
         		throw new IOException(msg);
@@ -303,7 +303,7 @@ public class FilesGenerator {
         }
         return false;
     }
-    
+
     void generateTreeBuildingFiles() throws IOException, TemplateException {
     	generateNodeFile();
     	generateUtilsFile();
@@ -342,7 +342,7 @@ public class FilesGenerator {
             }
         }
     }
-    
+
     // only used for tree-building files (a bit kludgy)
     private File getOutputFile(String nodeName) throws IOException {
         if (nodeName.equals(grammar.getBaseNodeClassName())) {
@@ -355,20 +355,20 @@ public class FilesGenerator {
         }
         String explicitlyDeclaredPackage = codeInjector.getExplicitlyDeclaredPackage(className);
         if (explicitlyDeclaredPackage == null) {
-            return new File(grammar.getNodeOutputDirectory(nodeName), className + ".java");            
+            return new File(grammar.getNodeOutputDirectory(nodeName), className + ".java");
         }
         String sourceBase = grammar.getOptions().getBaseSourceDirectory();
         if (sourceBase.equals("")) {
             return new File(grammar.getNodeOutputDirectory(nodeName), className + ".java");
         }
-        return new File(new File(sourceBase, explicitlyDeclaredPackage.replace('.', '/')), className + ".java"); 
+        return new File(new File(sourceBase, explicitlyDeclaredPackage.replace('.', '/')), className + ".java");
     }
 
-    
+
     public class Utils {
         private Map<String, String> id_map = new HashMap<String, String>();
         private int id = 1;
-        
+
         public String toHexString(int i) {
             return "0x" + Integer.toHexString(i);
         }
@@ -384,7 +384,7 @@ public class FilesGenerator {
         public int charAt(String s, int i) {
             return (int) s.charAt(i);
         }
-        
+
         public String addEscapes(String input) {
             return LexicalException.addEscapes(input);
         }
@@ -392,19 +392,19 @@ public class FilesGenerator {
         public boolean isBitSet(long num, int bit) {
             return (num & (1L<<bit)) != 0;
         }
-        
+
         public int firstCharAsInt(String s) {
             return (int) s.charAt(0);
         }
-        
+
         public String powerOfTwoInHex(int i) {
             return toHexStringL(1L << i);
         }
-        
+
         public BitSet newBitSet() {
             return new BitSet();
         }
-        
+
         public String getID(String name) {
             String value = id_map.get(name);
             if (value == null) {

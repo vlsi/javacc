@@ -209,7 +209,7 @@ public class Semanticizer {
                         grammar.addSemanticError(res.getRegexp(),
                                 "Multiply defined lexical token name \"" + s
                                         + "\".");
-                    } 
+                    }
                     if (lexerData.getLexicalStateIndex(s) != -1) {
                         grammar.addSemanticError(res.getRegexp(),
                                 "Lexical token name \"" + s
@@ -575,7 +575,7 @@ public class Semanticizer {
                 }
             }
 
-        } 
+        }
         if (grammar.getErrorCount() != 0) {
             throw new MetaParseException();
         }
@@ -634,7 +634,7 @@ public class Semanticizer {
         } else if (exp instanceof TryBlock) {
             return emptyExpansionExists(exp.getNestedExpansion());
         } else {
-            return false; 
+            return false;
         }
     }
 

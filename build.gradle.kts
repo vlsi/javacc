@@ -166,7 +166,7 @@ allprojects {
                     // importOrder(
                     //     "static ",
                     //     "java.",
-                    //     "org.javacc.",
+                    //     "com.javacc.",
                     //     ""
                     // )
                     // removeUnusedImports()

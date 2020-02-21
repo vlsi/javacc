@@ -41,22 +41,22 @@ import static javacc.parser.JavaCCConstants.*;
  */
 
 public class JavaFormatter {
-    
+
     private Token currentToken, lastToken;
     private BaseNode parent;
     private StringBuilder buf = new StringBuilder();
     private String indent = "    ";
     private String currentIndent = "";
-    
+
     public JavaFormatter() {}
-    
+
     public String format(Reader input) throws IOException, ParseException {
         JavaCCParser parser = new JavaCCParser(input);
         CompilationUnit cu = parser.CompilationUnit();
         input.close();
         return format(cu);
     }
-    
+
     public String format(BaseNode code) {
         buf = new StringBuilder();
         for (Token t :  Nodes.getAllTokens(code, true, true)) {
@@ -70,7 +70,7 @@ public class JavaFormatter {
         }
         return buf.toString();
     }
-    
+
     private void startNewLineIfNecessary() {
         if (buf.length() == 0) {
             return;
@@ -86,12 +86,12 @@ public class JavaFormatter {
             buf.append("\n");
         }
     }
-    
+
     private void newLine() {
         startNewLineIfNecessary();
         buf.append(currentIndent);
     }
-    
+
     private void handleToken() {
         switch (currentToken.getId()) {
             case LBRACE :
@@ -132,14 +132,14 @@ public class JavaFormatter {
                 buf.append(currentToken);
                 newLine();
                 break;
-            case SINGLE_LINE_COMMENT : 
+            case SINGLE_LINE_COMMENT :
                 handleSingleLineComment();
                 break;
             default:
                 if (buf.length() > 0) {
                     char lastChar = buf.charAt(buf.length() -1);
                     char thisChar = currentToken.toString().charAt(0);
-                    if ((Character.isJavaIdentifierPart(lastChar) || lastChar == ')' || lastChar == ']') 
+                    if ((Character.isJavaIdentifierPart(lastChar) || lastChar == ')' || lastChar == ']')
                             && Character.isJavaIdentifierPart(thisChar)) {
                         buf.append(' ');
                     }
@@ -150,7 +150,7 @@ public class JavaFormatter {
                 }
         }
     }
-    
+
     private void handleSingleLineComment() {
         if (lastToken !=null && lastToken.getEndLine() == currentToken.getBeginLine()) {
             int lastNL = buf.indexOf("\n");
@@ -161,8 +161,8 @@ public class JavaFormatter {
         buf.append(currentToken);
         newLine();
     }
-    
-    
+
+
     private void handleOpenBrace() {
         if (parent instanceof ArrayInitializer) {
             buf.append('{');
@@ -173,7 +173,7 @@ public class JavaFormatter {
         currentIndent += indent;
         newLine();
     }
-    
+
     private void handleCloseBrace() {
         if (parent instanceof ArrayInitializer) {
             buf.append('}');
@@ -182,7 +182,7 @@ public class JavaFormatter {
         currentIndent = currentIndent.substring(0, currentIndent.length() -indent.length());
         newLine();
         buf.append('}');
-        if (parent instanceof TypeDeclaration 
+        if (parent instanceof TypeDeclaration
             || parent instanceof ConstructorDeclaration
             || parent.getParent() instanceof MethodDeclaration)
         {
