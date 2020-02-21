@@ -1,3 +1,8 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.javacc/javacc-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.javacc/javacc-core)
+[![Travis Build Status](https://travis-ci.org/javacc21/javacc21.svg?branch=master)](https://travis-ci.org/javacc21/javacc21)
+[![CI Status](https://github.com/javacc21/javacc21/workflows/CI/badge.svg)](https://github.com/javacc21/javacc21/actions)
+[![Javadocs](https://www.javadoc.io/badge/com.javacc/javacc-core.svg)](https://www.javadoc.io/doc/com.javacc/javacc-core)
+
 # JavaCC 21, 20.02.21 release
 
 *Tagged and Released, 21 February 2020*

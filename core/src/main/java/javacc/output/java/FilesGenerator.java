@@ -57,10 +57,14 @@ public class FilesGenerator {
 
     void initializeTemplateEngine() throws IOException {
         fmConfig = new freemarker.template.Configuration();
-        String filename = grammar.getFilename();
-        File dir = new File(filename).getCanonicalFile().getParentFile();
-        TemplateLoader templateLoader = new MultiTemplateLoader(new FileTemplateLoader(dir), 
-                                                                new ClassTemplateLoader(this.getClass(), ""));
+        TemplateLoader templateLoader = new ClassTemplateLoader(this.getClass(), "");
+        final String templateSourceDirectory = grammar.getOptions().getTemplateSourceDirectory();
+        if (templateSourceDirectory != null) {
+            templateLoader = new MultiTemplateLoader(
+                    new FileTemplateLoader(new File(templateSourceDirectory)),
+                    templateLoader
+            );
+        }
         fmConfig.setClassForTemplateLoading(FilesGenerator.class, "");
         fmConfig.setTemplateLoader(templateLoader);
         fmConfig.setObjectWrapper(new BeansWrapper());

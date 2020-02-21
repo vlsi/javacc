@@ -744,6 +744,10 @@ public class JavaCCOptions {
         return stringValue("BASE_SRC_DIR");
     }
 
+    public String getTemplateSourceDirectory() {
+        return stringValue("TEMPLATE_SRC_DIR");
+    }
+
 
     /**
      * Some warnings if incompatible options are set.
