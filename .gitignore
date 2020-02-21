@@ -1,6 +1,6 @@
+.gradle/
 *~
 /docs/*
-/build/*
 /test.tmp/*
 /javacc.jar
 \#*
@@ -8,6 +8,24 @@
 /examples/freemarker/ftl/*
 /examples/freemarker/fel/*
 /examples/java/javagrammar/*
+
+/build/
+/buildSrc/build/
+/buildSrc/subprojects/*/build/
+/*/build/
+/out/
+/buildSrc/out/
+/buildSrc/subprojects/*/out/
+/*/out/
+/bin/
+/buildSrc/bin/
+/buildSrc/subprojects/*/bin/
+/*/bin/
+
+# IDEA
+/.idea/
+*.iml
+*.ipr
 
 # Compiled class file
 *.class
