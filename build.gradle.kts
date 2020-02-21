@@ -27,7 +27,7 @@ val slowTestLogThreshold by props(2000L)
 
 releaseParams {
     tlp.set("javacc")
-    organizationName.set("javacc21")
+    organizationName.set("vlsi")
     componentName.set("javacc")
     prefixForProperties.set("gh")
     svnDistEnabled.set(false)
